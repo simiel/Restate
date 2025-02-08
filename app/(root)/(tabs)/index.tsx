@@ -4,8 +4,8 @@ import { Link } from "expo-router";
 
 const index = () => {
   return (
-    <View>
-      <Text className="text-green-400 text-lg">index</Text>
+    <View className="flex-1 items-center content-center">
+      <Text className="text-danger font-rubik text-lg">index</Text>
       <Link href={"/sign-in"}>Signin</Link>
       <Link href={"/explore"}>Explore</Link>
       <Link href={"/profile"}>Profile</Link>
