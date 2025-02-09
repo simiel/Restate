@@ -6,14 +6,32 @@ import {
   ImageSourcePropType,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "@/constants/images";
 import icons from "@/constants/icons";
-import { login } from "@/lib/appwrite";
+import { login, logout } from "@/lib/appwrite";
+import { useGlobalContext } from "@/lib/global-provider";
+import { Redirect } from "expo-router";
+import { isLoading } from "expo-font";
 
 const Signin = () => {
+  const { refetch, loading, isLoggedIn } = useGlobalContext();
+
+  if (loading) {
+    return (
+      <SafeAreaView className="bg-white h-full flex justify-center items-center">
+        <ActivityIndicator className="text-primary-300" size={"large"} />
+      </SafeAreaView>
+    );
+  }
+
+  if (!loading && isLoggedIn) {
+    return <Redirect href="/(root)/(tabs)" />;
+  }
+
   const handleLogin = async () => {
     const result = await login();
 

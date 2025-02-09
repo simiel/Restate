@@ -4,6 +4,7 @@ import { useFonts } from "expo-font";
 // Import your global CSS file
 import "../global.css";
 import { useEffect } from "react";
+import GlobalProvider from "@/lib/global-provider";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -25,8 +26,10 @@ export default function RootLayout() {
     return null;
   }
   return (
-    <>
-      <Stack screenOptions={{ headerShown: false }} />
-    </>
+    <GlobalProvider>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen options={{}} name="sign-in" />
+      </Stack>
+    </GlobalProvider>
   );
 }

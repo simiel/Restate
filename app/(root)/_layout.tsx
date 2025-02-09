@@ -1,12 +1,22 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { useGlobalContext } from "@/lib/global-provider";
+import { Redirect, Slot } from "expo-router";
+import { ActivityIndicator } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const _layout = () => {
-  return (
-    <View>
-      <Text>_layout</Text>
-    </View>
-  );
-};
+export default function AppLayout() {
+  const { loading, isLoggedIn } = useGlobalContext();
 
-export default _layout;
+  if (loading) {
+    return (
+      <SafeAreaView className="bg-white h-full flex justify-center items-center">
+        <ActivityIndicator className="text-primary-300" size={"large"} />
+      </SafeAreaView>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return <Redirect href={"/"} />;
+  }
+
+  return <Slot />;
+}
