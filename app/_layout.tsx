@@ -27,9 +27,7 @@ export default function RootLayout() {
   }
   return (
     <GlobalProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen options={{}} name="sign-in" />
-      </Stack>
+      <Stack screenOptions={{ headerShown: false }}></Stack>
     </GlobalProvider>
   );
 }
