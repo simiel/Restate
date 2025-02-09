@@ -12,10 +12,9 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "@/constants/images";
 import icons from "@/constants/icons";
-import { login, logout } from "@/lib/appwrite";
+import { login } from "@/lib/appwrite";
 import { useGlobalContext } from "@/lib/global-provider";
 import { Redirect } from "expo-router";
-import { isLoading } from "expo-font";
 
 const Signin = () => {
   const { refetch, loading, isLoggedIn } = useGlobalContext();
