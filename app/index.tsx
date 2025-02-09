@@ -5,13 +5,24 @@ import {
   Image,
   ImageSourcePropType,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "@/constants/images";
 import icons from "@/constants/icons";
+import { login } from "@/lib/appwrite";
 
 const Signin = () => {
+  const handleLogin = async () => {
+    const result = await login();
+
+    if (result) {
+      console.log("Successful Login");
+    } else {
+      Alert.alert("Error", "Something went wrong");
+    }
+  };
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView contentContainerClassName="h-full">
@@ -35,7 +46,7 @@ const Signin = () => {
           </Text>
 
           <TouchableOpacity
-            onPress={() => {}}
+            onPress={handleLogin}
             className="items-center justify-center rounded-full flex-row w-full py-4 mt-5 shadow-zinc-100 shadow-md bg-white"
           >
             <Image
