@@ -17,7 +17,7 @@ import { useGlobalContext } from "@/lib/global-provider";
 import { Redirect } from "expo-router";
 
 const Signin = () => {
-  const { refetch, loading, isLoggedIn } = useGlobalContext();
+  const { loading, isLogged, refetch } = useGlobalContext();
 
   if (loading) {
     return (
@@ -27,17 +27,18 @@ const Signin = () => {
     );
   }
 
-  if (!loading && isLoggedIn) {
-    return <Redirect href="/(root)/(tabs)" />;
+  if (!loading && isLogged) {
+    console.log("🚀 ~ Signin ~ !loading && isLogged:", !loading && isLogged);
+    return <Redirect href="/(root)/(tabs)/profile" />;
   }
 
   const handleLogin = async () => {
     const result = await login();
 
     if (result) {
-      console.log("Successful Login");
+      refetch();
     } else {
-      Alert.alert("Error", "Something went wrong");
+      Alert.alert("Error", "Failed to login");
     }
   };
   return (
