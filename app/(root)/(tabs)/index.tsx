@@ -7,23 +7,50 @@ import {
   FlatList,
   Button,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import icons from "@/constants/icons";
 import Search from "@/components/Search";
 import { Card, FeaturedCard } from "@/components/Cards";
 import Filters from "@/components/Filters";
 import { useGlobalContext } from "@/lib/global-provider";
+import { useLocalSearchParams } from "expo-router";
+import { useAppwrite } from "@/lib/useAppwrite";
+import { getLatestProperties, getProperties } from "@/lib/appwrite";
 
 const index = () => {
   const { user } = useGlobalContext();
+  const params = useLocalSearchParams<{ query?: string; filter?: string }>();
+
+  const { data: latestProperties, loading: latestPropertiesLoading } =
+    useAppwrite({ fn: getLatestProperties });
+
+  const {
+    data: properties,
+    loading: propertiesLoading,
+    refetch: refetchProperties,
+  } = useAppwrite({
+    fn: getProperties,
+    params: { query: params.query!, filter: params.filter!, limit: 6 },
+    skip: true,
+  });
+
+  useEffect(() => {
+    refetchProperties({
+      filter: params.filter!,
+      query: params.query!,
+      limit: 6,
+    })
+      .then(() => console.log("Properties refetched"))
+      .catch((err) => console.log(err));
+  }, [params.query, params.filter]);
 
   return (
     <SafeAreaView className="h-full bg-white">
       <FlatList
-        data={[1, 2, 3]}
+        data={properties}
         renderItem={() => <Card />}
-        keyExtractor={(item) => item.toString()}
+        keyExtractor={(item) => item.$id}
         numColumns={2}
         contentContainerClassName="pb-32"
         columnWrapperClassName="flex gap-5 px-5"
@@ -67,11 +94,11 @@ const index = () => {
               </View>
 
               <FlatList
-                data={[1, 2, 3, 4]}
+                data={latestProperties}
                 renderItem={() => <FeaturedCard />}
                 className="mt-5"
                 contentContainerClassName="flex gap-5"
-                keyExtractor={(item) => item.toString()}
+                keyExtractor={(item) => item.$id}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 // bounces={false}
