@@ -8,18 +8,23 @@ import {
 import React from "react";
 import images from "@/constants/images";
 import icons from "@/constants/icons";
+import { Models } from "react-native-appwrite";
 
 interface Props {
   onPress?: () => void;
+  item: Models.Document;
 }
 
-export const FeaturedCard = ({ onPress }: Props) => {
+export const FeaturedCard = ({
+  onPress,
+  item: { image, rating, name, address, price },
+}: Props) => {
   return (
-    <TouchableOpacity className="flex flex-col items-start w-60 h-80 relative">
-      <Image
-        source={images.japan as ImageSourcePropType}
-        className="size-full rounded-2xl"
-      />
+    <TouchableOpacity
+      className="flex flex-col items-start w-60 h-80 relative"
+      onPress={onPress}
+    >
+      <Image source={{ uri: image }} className="size-full rounded-2xl" />
       <Image
         source={images.cardGradient as ImageSourcePropType}
         className="size-full rounded-2xl absolute bottom-0"
@@ -31,7 +36,7 @@ export const FeaturedCard = ({ onPress }: Props) => {
           className="size-3.5"
         />
         <Text className=" font-rubik-bold text-primary-300 ml-1 text-xs">
-          4.4
+          {rating}
         </Text>
       </View>
 
@@ -40,14 +45,14 @@ export const FeaturedCard = ({ onPress }: Props) => {
           numberOfLines={1}
           className="font-rubik-extrabold text-white text-xl"
         >
-          Modern Apartment
+          {name}
         </Text>
-        <Text className="text-base font-rubik text-white">
-          22 Miami Beach, FL
-        </Text>
+        <Text className="text-base font-rubik text-white">{address}</Text>
 
         <View className="flex flex-row items-center justify-between w-full">
-          <Text className="text-xl font-rubik-extrabold text-white">$3500</Text>
+          <Text className="text-xl font-rubik-extrabold text-white">
+            ${price}
+          </Text>
           <Image
             source={icons.heart as ImageSourcePropType}
             className="size-5"
@@ -58,7 +63,10 @@ export const FeaturedCard = ({ onPress }: Props) => {
   );
 };
 
-export const Card = ({ onPress }: Props) => {
+export const Card = ({
+  onPress,
+  item: { image, rating, name, address, price },
+}: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -70,26 +78,19 @@ export const Card = ({ onPress }: Props) => {
           className="size-2.5"
         />
         <Text className=" font-rubik-bold text-primary-300 ml-0.5 text-xs">
-          4.4
+          {rating}
         </Text>
       </View>
 
-      <Image
-        source={images.newYork as ImageSourcePropType}
-        className="w-full h-40 rounded-lg"
-      />
+      <Image source={{ uri: image }} className="w-full h-40 rounded-lg" />
 
       <View className="flex flex-col mt-2">
-        <Text className="font-rubik-bold text-black-300 text-base">
-          Cozy Studio
-        </Text>
-        <Text className="text-xs font-rubik text-black-200">
-          22 Miami Beach, FL
-        </Text>
+        <Text className="font-rubik-bold text-black-300 text-base">{name}</Text>
+        <Text className="text-xs font-rubik text-black-200">{address}</Text>
 
         <View className="flex flex-row items-center justify-between mt-2">
           <Text className="text-base font-rubik-bold text-primary-300">
-            $3500
+            ${price}
           </Text>
           <Image
             source={icons.heart as ImageSourcePropType}

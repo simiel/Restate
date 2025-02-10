@@ -6,6 +6,7 @@ import {
   ImageSourcePropType,
   FlatList,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,9 +15,10 @@ import Search from "@/components/Search";
 import { Card, FeaturedCard } from "@/components/Cards";
 import Filters from "@/components/Filters";
 import { useGlobalContext } from "@/lib/global-provider";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useAppwrite } from "@/lib/useAppwrite";
 import { getLatestProperties, getProperties } from "@/lib/appwrite";
+import NoResults from "@/components/NoResults";
 
 const index = () => {
   const { user } = useGlobalContext();
@@ -41,15 +43,31 @@ const index = () => {
       query: params.query!,
       limit: 6,
     })
-      .then(() => console.log("Properties refetched"))
+      .then(() => console.log("Properties re-fetched"))
       .catch((err) => console.log(err));
   }, [params.query, params.filter]);
+
+  const handleCardPress = (id: string) => router.push(`/properties/${id}`);
 
   return (
     <SafeAreaView className="h-full bg-white">
       <FlatList
         data={properties}
-        renderItem={() => <Card />}
+        ListEmptyComponent={
+          propertiesLoading ? (
+            <ActivityIndicator className="text-primary-300 mt-5" />
+          ) : (
+            <NoResults />
+          )
+        }
+        renderItem={({ item }) => (
+          <Card
+            item={item}
+            onPress={() => {
+              handleCardPress(item.$id);
+            }}
+          />
+        )}
         keyExtractor={(item) => item.$id}
         numColumns={2}
         contentContainerClassName="pb-32"
@@ -93,16 +111,32 @@ const index = () => {
                 </TouchableOpacity>
               </View>
 
-              <FlatList
-                data={latestProperties}
-                renderItem={() => <FeaturedCard />}
-                className="mt-5"
-                contentContainerClassName="flex gap-5"
-                keyExtractor={(item) => item.$id}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                // bounces={false}
-              />
+              {latestPropertiesLoading ? (
+                <ActivityIndicator
+                  size={"large"}
+                  className="text-primary-300 mt-5"
+                />
+              ) : !latestProperties || latestProperties.length == 0 ? (
+                <NoResults />
+              ) : (
+                <FlatList
+                  data={latestProperties}
+                  renderItem={({ item }) => (
+                    <FeaturedCard
+                      item={item}
+                      onPress={() => {
+                        handleCardPress(item.$id);
+                      }}
+                    />
+                  )}
+                  className="mt-5"
+                  contentContainerClassName="flex gap-5"
+                  keyExtractor={(item) => item.$id}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  // bounces={false}
+                />
+              )}
             </View>
 
             <View className="">
