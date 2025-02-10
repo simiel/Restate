@@ -1,50 +1,133 @@
-# Welcome to your Expo app 👋
+# Restate - Modern Property Marketplace App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<p align="center">
+  <img src="./assets/images/icon.png" alt="Restate Logo" width="100" />
+</p>
 
-## Get started
+A modern, feature-rich mobile application for property search and management, built with React Native, Expo, and Appwrite.
 
-1. Install dependencies
+## 🌟 Features
 
-   ```bash
-   npm install
-   ```
+- **Google Authentication**: Secure user authentication using Google OAuth
+- **Property Search**: Advanced search functionality with filters
+- **Real-time Updates**: Live property listings and updates
+- **Interactive UI**: Modern and responsive design with smooth animations
+- **Property Details**: Comprehensive property information including:
+  - Image galleries
+  - Property specifications
+  - Agent information
+  - Location details
+  - Facilities overview
+- **Favorites System**: Save and manage favorite properties
+- **User Profiles**: Personalized user experience
 
-2. Start the app
+## 🛠️ Technology Stack
 
-   ```bash
-    npx expo start
-   ```
+- **Frontend Framework**: React Native with Expo
+- **Styling**: TailwindCSS (NativeWind)
+- **Backend & Authentication**: Appwrite
+- **Navigation**: Expo Router
+- **State Management**: React Context API
+- **Type Safety**: TypeScript
 
-In the output, you'll find options to open the app in a
+## 📱 Screenshots
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+[You can add screenshots of your app here]
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## 🚀 Getting Started
 
-## Get a fresh project
-
-When you're ready, run:
+1. Clone the repository
 
 ```bash
-npm run reset-project
+git clone https://github.com/yourusername/restate.git
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Install dependencies
 
-## Learn more
+```bash
+cd restate
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+3. Set up environment variables
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+# Create a .env file and add your Appwrite credentials
+EXPO_PUBLIC_APPWRITE_ENDPOINT=your_endpoint
+EXPO_PUBLIC_APPWRITE_PROJECT_ID=your_project_id
+EXPO_PUBLIC_APPWRITE_DATABASE_ID=your_database_id
+```
 
-## Join the community
+4. Start the development server
 
-Join our community of developers creating universal apps.
+```bash
+npm start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 🏗️ Project Structure
+
+```plaintext
+restate/
+├── app/                   # Application screens
+├── assets/               # Static assets
+├── components/           # Reusable components
+├── constants/            # App constants
+└── lib/                  # Utility functions
+```
+
+## 🎯 Key Features Implementation
+
+### Authentication Flow
+
+- Secure OAuth2 implementation with Google
+- Persistent session management
+- Protected routes
+
+### Property Management
+
+- Real-time property data fetching
+- Advanced filtering system
+- Image gallery management
+- Detailed property information display
+
+### User Experience
+
+- Smooth animations
+- Responsive design
+- Cross-platform compatibility
+- Error handling
+- Loading states
+
+## 📱 Screenshots
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; flex-direction: row">
+
+<img src="./shots/home.png" width="250" alt="Home Screen" />
+<img src="./shots/detail.png" width="250" alt="Detail Screen" />
+<img src="./shots/profile.png" width="250" alt="Profile Screen" />
+<img src="./shots/home2.png" width="250" alt="Home Details" />
+<img src="./shots/empty.png" width="250" alt="Empty Screen" />
+
+</div>
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👨‍💻 Author
+
+Your Name
+
+- GitHub: @simiel
+- LinkedIn: https://www.linkedin.com/in/samensah/
+
+## 🙏 Acknowledgments
+
+- Expo for the amazing development platform
+- Appwrite for the backend services
+- NativeWind for the styling solution
+- JavaScript Mastery Channel @youtube
