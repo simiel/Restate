@@ -5,6 +5,7 @@ import {
   Image,
   ImageSourcePropType,
   FlatList,
+  Button,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,12 +14,14 @@ import Search from "@/components/Search";
 import { Card, FeaturedCard } from "@/components/Cards";
 import Filters from "@/components/Filters";
 import { useGlobalContext } from "@/lib/global-provider";
+import seed from "@/lib/seed";
 
 const index = () => {
   const { user } = useGlobalContext();
 
   return (
     <SafeAreaView className="h-full bg-white">
+      <Button title="Seed" onPress={seed} />
       <FlatList
         data={[1, 2, 3, 4]}
         renderItem={() => <Card />}
