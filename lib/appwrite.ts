@@ -10,6 +10,7 @@ import {
 } from "react-native-appwrite";
 import * as linking from "expo-linking";
 import { openAuthSessionAsync } from "expo-web-browser";
+import * as AuthSession from "expo-auth-session";
 
 export const config = {
   platform: "com.simiel.restate",
@@ -37,10 +38,11 @@ export const databases = new Databases(client);
 
 export async function login() {
   try {
-    const redirectUri = linking.createURL("/");
+    const redirectUri = linking.getLinkingURL();
+    console.log("🚀 ~ redirectUri ~:", redirectUri);
     const response = await account.createOAuth2Token(
       OAuthProvider.Google,
-      redirectUri
+      redirectUri!
     );
 
     if (!response) {
