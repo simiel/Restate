@@ -8,9 +8,10 @@ import {
   Query,
   Storage,
 } from "react-native-appwrite";
-import * as linking from "expo-linking";
+import * as Linking from "expo-linking";
 import { openAuthSessionAsync } from "expo-web-browser";
-import * as AuthSession from "expo-auth-session";
+import { makeRedirectUri } from "expo-auth-session";
+import * as WebBrowser from "expo-web-browser";
 
 export const config = {
   platform: "com.simiel.restate",
@@ -38,42 +39,43 @@ export const databases = new Databases(client);
 
 export async function login() {
   try {
-    const redirectUri = linking.getLinkingURL();
-    console.log("🚀 ~ redirectUri ~:", redirectUri);
-    const response = await account.createOAuth2Token(
+    await account.deleteSession("current");
+  } catch (err) {
+    console.log("No active session or failed to delete:", err);
+  }
+
+  try {
+    const deepLink = new URL(makeRedirectUri({ preferLocalhost: true }));
+    const scheme = `${deepLink.protocol}//`;
+    console.log("🚀 ~ login ~ deepLink:", deepLink);
+    console.log("🚀 ~ login ~ scheme:", scheme);
+    const redirectUri = Linking.createURL(
+      "https://fra.cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/67a76452001df269778e"
+    );
+
+    const loginUrl = await account.createOAuth2Token(
       OAuthProvider.Google,
-      redirectUri!
+      `${deepLink}`,
+      `${deepLink}`
     );
+    if (!loginUrl) throw new Error("Create OAuth2 token failed");
 
-    if (!response) {
-      throw new Error("Failed to login");
-    }
-    const browserResult = await openAuthSessionAsync(
-      response.toString(),
-      redirectUri
-    );
+    const result = await WebBrowser.openAuthSessionAsync(`${loginUrl}`, scheme);
 
-    if (browserResult.type !== "success") {
-      throw new Error("Failed to login in browser");
-    }
+    // Extract credentials from OAuth redirect URL
+    const url = new URL(result.url);
+    const secret = url.searchParams.get("secret");
+    const userId = url.searchParams.get("userId");
 
-    const url = new URL(browserResult.url);
-
-    const secret = url.searchParams.get("secret")?.toString();
-    const userId = url.searchParams.get("userId")?.toString();
-    if (!secret || !userId) {
-      throw new Error("Failed to login get id ");
-    }
+    // Create session with OAuth credentials
+    // await account.createSession(userId, secret);
 
     const session = await account.createSession(userId, secret);
-
-    if (!session) {
-      throw new Error("Failed to create a session");
-    }
+    if (!session) throw new Error("Failed to create session");
 
     return true;
   } catch (error) {
-    console.log("🚀 ~ login ~ error:", error);
+    console.error(error);
     return false;
   }
 }
